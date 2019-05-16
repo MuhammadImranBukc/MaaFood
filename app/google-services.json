@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "100221952885",
+    "firebase_url": "https://maafood-d55f4.firebaseio.com",
+    "project_id": "maafood-d55f4",
+    "storage_bucket": "maafood-d55f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100221952885:android:761427ab41b53857",
+        "android_client_info": {
+          "package_name": "com.example.maafood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100221952885-i04epikfs40fh9gtmhg7i646tg32utaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhv8wC2M-pLJpCWDS2MdoEN5EVsWjPxcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100221952885-i04epikfs40fh9gtmhg7i646tg32utaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

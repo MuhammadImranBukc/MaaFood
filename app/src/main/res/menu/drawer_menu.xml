@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <group
+        android:id="@+id/Group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/cravings"
+            android:title="@string/cravings" />
+        <item
+            android:id="@+id/Planner"
+            android:title="@string/planner" />
+        <item
+            android:id="@+id/MyKitchen"
+            android:title="@string/my_kitchen" />
+        <item
+            android:id="@+id/Activity"
+            android:title="@string/activity" />
+    </group>
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/MyProfile"
+            android:title="@string/my_profile" />
+        <item
+            android:id="@+id/inviteFriends"
+            android:title="@string/invite_friends" />
+        <item
+            android:id="@+id/Help"
+            android:title="@string/help" />
+        <item
+            android:id="@+id/logout"
+            android:title="@string/logout" />
+    </group>
+</menu>

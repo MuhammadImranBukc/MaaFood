@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="172dp"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:padding="25dp"
+    >
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/profileImage"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:src="@drawable/maafood" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eat Healthy Stay Healthy!"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white"
+        android:layout_marginTop="6dp"
+        />
+    </LinearLayout>
