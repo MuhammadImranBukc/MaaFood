@@ -13,12 +13,15 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/maafood"
          />
+
     <ProgressBar
         android:id="@+id/progbar"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="373dp"
+        android:visibility="gone"
         />
 
     <EditText
@@ -27,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dish_image"
         android:layout_margin="12dp"
-        android:hint="Dish name" />
+        android:hint="@string/dish_name" />
 
     <EditText
         android:id="@+id/description"
@@ -35,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/DishName"
         android:layout_margin="12dp"
-        android:hint="Description" />
+        android:hint="@string/desc" />
 
     <EditText
         android:id="@+id/min_serving"
@@ -49,7 +52,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="12dp"
-        android:hint="Minimum Serving" />
+        android:hint="@string/min_serve" />
 
     <EditText
         android:id="@+id/max_serving"
@@ -59,7 +62,7 @@
         android:layout_margin="12dp"
         android:layout_toRightOf="@+id/min_serving"
 
-        android:hint="Maximum Serving" />
+        android:hint="@string/max_serve" />
 
     <EditText
         android:id="@+id/EstimatedCoast"
@@ -67,14 +70,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/max_serving"
         android:layout_margin="12dp"
-        android:hint="Estimated coast" />
+        android:hint="@string/est_cost" />
 
 
     <Spinner
         android:id="@+id/specifics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="add Specifics"
+        android:autofillHints="@string/specs"
         android:layout_below="@+id/EstimatedCoast"
         android:choiceMode="multipleChoice"/>
 

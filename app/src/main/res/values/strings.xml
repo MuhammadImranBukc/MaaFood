@@ -32,9 +32,15 @@
     <string name="invite_friends">Invite Friends</string>
     <string name="help">Help</string>
     <string name="logout">Logout</string>
-
-
-
-
+    <string name="dish_name">Dish Name</string>
+    <string name="desc">Description</string>
+    <string name="min_serve">Minimum Serving</string>
+    <string name="max_serve">Maximum Serving</string>
+    <string name="est_cost">Estimated Cost</string>
+    <string name="specs">Specifications</string>
+    <string name="dishes">Available Dishes</string>
+    <string name="orders">Available Orders</string>
+    <string name="order">Add Order</string>
+    <string name="dish">Add Dish</string>
 
 </resources>

@@ -4,4 +4,5 @@
     <dimen name="drawable_padding">5dp</dimen>
     <dimen name="app_name_size">42sp</dimen>
     <dimen name="size">16sp</dimen>
+    <dimen name="recycler_padding">10dp</dimen>
 </resources>

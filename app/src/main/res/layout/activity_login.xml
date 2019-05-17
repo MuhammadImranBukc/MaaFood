@@ -45,7 +45,7 @@
             android:drawablePadding="@dimen/drawable_padding"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:nextFocusDown="@id/edit_text_phone"
+            android:nextFocusDown="@id/button_login"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorHint" />
 
@@ -57,16 +57,16 @@
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="@color/colorText" />
+
         <TextView
             android:id="@+id/not_registered"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/drawable_padding"
             android:text="@string/not_registered"
             android:textAlignment="center"
-            android:drawablePadding="@dimen/drawable_padding"
             android:textColor="@color/colorHint"
-            android:textSize="@dimen/size"
-            />
+            android:textSize="@dimen/size" />
     </LinearLayout>
 
     <ProgressBar

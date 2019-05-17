@@ -5,13 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
-import java.util.zip.Inflater;
-
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.recyclerViewHolder> {
-    public RecyclerViewAdapter(String[] items) {
+public class RecyclerDishAdapter extends RecyclerView.Adapter<RecyclerDishAdapter.recyclerViewHolder> {
+    public RecyclerDishAdapter(String[] items) {
         this.items = items;
     }
 
@@ -20,7 +17,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public recyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.post_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.post_dish,parent,false);
         return new recyclerViewHolder(view);
 
     }

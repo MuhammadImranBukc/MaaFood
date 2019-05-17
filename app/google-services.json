@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "100221952885-ru69c6qq0a9esul46mttgpkl4k6gq1hn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maafood",
+            "certificate_hash": "5d1aa6032451a1b748d080e208c481d8196cce31"
+          }
+        },
+        {
           "client_id": "100221952885-i04epikfs40fh9gtmhg7i646tg32utaa.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -27,9 +27,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 
 public class AddDish extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -43,10 +45,12 @@ public class AddDish extends AppCompatActivity implements AdapterView.OnItemSele
     String dishImageUrl;
     FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_dish);
+
         spinner = findViewById(R.id.specifics);
         imageView = findViewById(R.id.dish_image);
         button = findViewById(R.id.button_post);
@@ -108,12 +112,12 @@ public class AddDish extends AppCompatActivity implements AdapterView.OnItemSele
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null)
-            ;
+        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null);
 
         uriDishImage = data.getData();
+      //  imageView.setImageURI(uriDishImage);
         try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriDishImage);
+           Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriDishImage);
             imageView.setImageBitmap(bitmap);
             uploadImageToFirebaseStorage();
         } catch (IOException e) {
@@ -123,28 +127,25 @@ public class AddDish extends AppCompatActivity implements AdapterView.OnItemSele
 
     private void uploadImageToFirebaseStorage() {
 
-        StorageReference dishImageRef = FirebaseStorage.getInstance().getReference("dishimage/" + System.currentTimeMillis() + ".jpg");
+        final StorageReference dishImageRef = FirebaseStorage.getInstance().getReference("dishimage/" + System.currentTimeMillis() + ".jpg");
+        UploadTask uploadTask = dishImageRef.putFile(uriDishImage);
 
-        if (uriDishImage != null) {
-            progressBar.setVisibility(View.VISIBLE);
-            dishImageRef.putFile(uriDishImage)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressBar.setVisibility(View.GONE);
-                            dishImageUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddDish.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+// Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                 taskSnapshot.getMetadata();
+            }
+        });
 
 
-        }
+
+
     }
 
     private void ShowImageChooser() {
