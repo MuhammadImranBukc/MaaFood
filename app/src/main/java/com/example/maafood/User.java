@@ -1,8 +1,6 @@
-package com.example.maafood;
+package com.example.maafooD;
 
-/**
- * Created by Belal on 4/15/2018.
- */
+
 
 public class User {
     public String name, email, phone;

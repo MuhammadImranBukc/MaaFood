@@ -42,5 +42,8 @@
     <string name="orders">Available Orders</string>
     <string name="order">Add Order</string>
     <string name="dish">Add Dish</string>
+    <string name="loading">Loading…</string>
+    <string name="upload_paused">Upload is paused</string>
+    <string name="upload_resume">Upload resumed</string>
 
 </resources>

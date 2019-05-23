@@ -1,4 +1,4 @@
-package com.example.maafood;
+package com.example.maafooD;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

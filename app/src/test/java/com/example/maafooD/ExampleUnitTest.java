@@ -1,4 +1,4 @@
-package com.example.maafood;
+package com.example.maafooD;
 
 import org.junit.Test;
 

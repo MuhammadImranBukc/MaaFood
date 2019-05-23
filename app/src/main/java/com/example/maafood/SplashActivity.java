@@ -1,4 +1,4 @@
-package com.example.maafood;
+package com.example.maafooD;
 
 import android.content.Intent;
 import android.os.Handler;

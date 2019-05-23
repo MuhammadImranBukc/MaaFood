@@ -1,4 +1,4 @@
-package com.example.maafood;
+package com.example.maafooD;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

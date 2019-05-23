@@ -6,13 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".AddDish">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/backbutton"
+            android:onClick="back"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="MAA FOOD"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/white"/>
+    </android.support.v7.widget.Toolbar>
+
     <ImageView
         android:id="@+id/dish_image"
         android:layout_width="160dp"
         android:layout_height="160dp"
+        android:onClick="openFileChooser"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/maafood"
-         />
+
+        android:src="@drawable/maafood" />
 
     <ProgressBar
         android:id="@+id/progbar"
@@ -73,21 +96,16 @@
         android:hint="@string/est_cost" />
 
 
-    <Spinner
-        android:id="@+id/specifics"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="@string/specs"
-        android:layout_below="@+id/EstimatedCoast"
-        android:choiceMode="multipleChoice"/>
-
     <Button
         android:id="@+id/button_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/specifics"
+        android:layout_below="@+id/EstimatedCoast"
+
         android:layout_centerHorizontal="true"
+        android:onClick="uploadImage"
         android:text="Post" />
+
 
 
 </RelativeLayout>

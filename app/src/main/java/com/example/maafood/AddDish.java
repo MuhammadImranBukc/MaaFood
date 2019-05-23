@@ -1,49 +1,46 @@
-package com.example.maafood;
+package com.example.maafooD;
 
+import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
+public class AddDish extends AppCompatActivity {
 
-public class AddDish extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private static final int CHOOSE_IMAGE = 101;
-    Spinner spinner;
-    EditText dishName, description, minServing, maxServing, coast;
-    ImageView imageView;
-    Button button;
-    Uri uriDishImage;
-    ProgressBar progressBar;
-    String dishImageUrl;
-    FirebaseAuth mAuth;
+
+    public static final int PICK_IMAGE_REQUEST = 1;
+    public Button AddDish;
+    public ImageView DishImage;
+    public EditText DishName,Desc,Max,Min,Coast;
+    public ProgressBar ProgressBar;
+    public static final String TAG = "SampleActivity";
+
+    public Uri ImageUri;
+
+    public StorageReference storageReference;
+    public DatabaseReference databaseReference;
 
 
     @Override
@@ -51,121 +48,103 @@ public class AddDish extends AppCompatActivity implements AdapterView.OnItemSele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_dish);
 
-        spinner = findViewById(R.id.specifics);
-        imageView = findViewById(R.id.dish_image);
-        button = findViewById(R.id.button_post);
-        progressBar = findViewById(R.id.progbar);
-        dishName = findViewById(R.id.DishName);
+        AddDish = findViewById(R.id.btnAddDish);
+        DishImage = findViewById(R.id.dish_image);
+        DishName = findViewById(R.id.DishName);
+        ProgressBar = findViewById(R.id.progbar);
+        Desc=findViewById(R.id.description);
+        Max=findViewById(R.id.max_serving);
+        Min=findViewById(R.id.min_serving);
+        Coast=findViewById(R.id.EstimatedCoast);
 
-        mAuth = FirebaseAuth.getInstance();
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.specifiecs, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowImageChooser();
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveUserInformation();
-            }
-        });
+        storageReference = FirebaseStorage.getInstance().getReference("dishimage/");
+        databaseReference = FirebaseDatabase.getInstance().getReference("dishimage/");
 
     }
 
-    private void saveUserInformation() {
 
-        String dishNam = dishName.getText().toString();
-        if (dishNam.isEmpty()) {
-            dishName.setError("Dish name is required");
-            dishName.requestFocus();
-            return;
-        }
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            UserProfileChangeRequest post = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(dishNam)
-                    .setPhotoUri(Uri.parse(dishImageUrl))
-                    .build();
+    public void openFileChooser(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
 
-            user.updateProfile(post)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(AddDish.this, "profile Updated", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null);
-
-        uriDishImage = data.getData();
-      //  imageView.setImageURI(uriDishImage);
-        try {
-           Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriDishImage);
-            imageView.setImageBitmap(bitmap);
-            uploadImageToFirebaseStorage();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            ImageUri = data.getData();
+            Picasso.with(this).load(ImageUri).into(DishImage);
         }
     }
 
-    private void uploadImageToFirebaseStorage() {
 
-        final StorageReference dishImageRef = FirebaseStorage.getInstance().getReference("dishimage/" + System.currentTimeMillis() + ".jpg");
-        UploadTask uploadTask = dishImageRef.putFile(uriDishImage);
+    public String getFileExtention(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
 
-// Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                 taskSnapshot.getMetadata();
-            }
-        });
+    public void uploadImage(View view) {
+        if (ImageUri != null) {
+            ProgressBar.setVisibility(View.VISIBLE);
+           // StorageReference filerefrence = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(ImageUri));
+            storageReference.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(AddDish.this, "error agay", Toast.LENGTH_LONG).show();
+                        throw task.getException();
+                    }
+                    return storageReference.getDownloadUrl();
+                }
+            })
+                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                Uri downloadUri = task.getResult();
+                                Log.e(TAG, "then: " + downloadUri.toString());
+
+
+                                dish dishClass = new dish(DishName.getText().toString().trim(),
+                                        downloadUri.toString(),Min.getText().toString().trim(),Max.getText().toString().trim(),Coast.getText().toString().trim(),Desc.getText().toString().trim());
+
+                                databaseReference.push().setValue(dishClass);
+                                ProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(AddDish.this, "Upload successful", Toast.LENGTH_LONG).show();
+
+                            } else {
+                                ProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(AddDish.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            ProgressBar.setVisibility(View.GONE);
+                            Toast.makeText(AddDish.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        } else {
+            ProgressBar.setVisibility(View.GONE);
+            Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
 
+    public void back(View view) {
+        Intent intent = new Intent(this, HomePage.class);
+        startActivity(intent);
 
     }
 
-    private void ShowImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Food Image"), CHOOSE_IMAGE);
-
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String item = parent.getSelectedItem().toString();
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
 }

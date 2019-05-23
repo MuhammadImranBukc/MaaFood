@@ -1,7 +1,10 @@
-package com.example.maafood;
+package com.example.maafooD;
 
 import android.content.Intent;
+import android.os.Bundle;
+
 import android.support.annotation.NonNull;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -9,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class HomePage extends AppCompatActivity {
-
+    private static final String TAG = "MyActivity";
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -34,21 +36,21 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
         setuptoolbar();
 
-        RecyclerView list =  findViewById(R.id.recyclerDishList);
+        RecyclerView list = findViewById(R.id.recyclerDishList);
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         list.setAdapter(new RecyclerDishAdapter(new String[]{"dish1", "dish2", "dish 3", "dish 4", "dish 5", "dish 6", "dish 7", "dish 8"}));
 
 
-        RecyclerView list2 =  findViewById(R.id.recyclerOrderList);
+        RecyclerView list2 = findViewById(R.id.recyclerOrderList);
         list2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         list2.setAdapter(new RecyclerDishAdapter(new String[]{"Order 1", "Order 2", "Order 3", "Order 4", "Order 5", "Order 6", "Order 7", "Order 8"}));
 
 
-        toolbar =  findViewById(R.id.toolbar);
-        btnAddDish =  findViewById(R.id.btnAddDish);
+        toolbar = findViewById(R.id.toolbar);
+        btnAddDish = findViewById(R.id.btnAddDish);
 
 
-        navigationView =  findViewById(R.id.navigationView);
+        navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -63,6 +65,12 @@ public class HomePage extends AppCompatActivity {
                         i = new Intent(HomePage.this, LoginActivity.class);
                         startActivity(i);
                         break;
+                    case R.id.cravings:
+                        FirebaseAuth.getInstance().signOut();
+                        finish();
+                        i = new Intent(HomePage.this, AddOrder.class);
+                        startActivity(i);
+                        break;
 
 
                 }
@@ -74,7 +82,7 @@ public class HomePage extends AppCompatActivity {
 
     private void setuptoolbar() {
 
-        drawerLayout =  findViewById(R.id.drawerLayout);
+        drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -112,8 +120,12 @@ public class HomePage extends AppCompatActivity {
 
     public void AddDish(View view) {
 
-        Intent i = new Intent(this, AddDish.class);
+        Intent i = new Intent(HomePage.this, AddDish.class);
         startActivity(i);
     }
 
+    public void AddOrder(View view) {
+        Intent intent = new Intent(HomePage.this,AddOrder.class);
+        startActivity(intent);
+    }
 }
