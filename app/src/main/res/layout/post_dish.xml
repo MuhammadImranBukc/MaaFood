@@ -10,10 +10,11 @@
     android:orientation="vertical"
     android:layout_margin="@dimen/size">
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
+        android:id="@+id/imageviewdish"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/maafood" />
+        android:src="@drawable/adddish" />
     <TextView
         android:id="@+id/itemTxt"
         android:layout_width="wrap_content"

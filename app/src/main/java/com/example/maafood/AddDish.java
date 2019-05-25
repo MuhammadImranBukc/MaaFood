@@ -33,7 +33,7 @@ public class AddDish extends AppCompatActivity {
     public static final int PICK_IMAGE_REQUEST = 1;
     public Button AddDish;
     public ImageView DishImage;
-    public EditText DishName,Desc,Max,Min,Coast;
+    public EditText DishName, Desc, Max, Min, Coast;
     public ProgressBar ProgressBar;
     public static final String TAG = "SampleActivity";
 
@@ -52,10 +52,10 @@ public class AddDish extends AppCompatActivity {
         DishImage = findViewById(R.id.dish_image);
         DishName = findViewById(R.id.DishName);
         ProgressBar = findViewById(R.id.progbar);
-        Desc=findViewById(R.id.description);
-        Max=findViewById(R.id.max_serving);
-        Min=findViewById(R.id.min_serving);
-        Coast=findViewById(R.id.EstimatedCoast);
+        Desc = findViewById(R.id.description);
+        Max = findViewById(R.id.max_serving);
+        Min = findViewById(R.id.min_serving);
+        Coast = findViewById(R.id.EstimatedCoast);
 
         storageReference = FirebaseStorage.getInstance().getReference("dishimage/");
         databaseReference = FirebaseDatabase.getInstance().getReference("dishimage/");
@@ -91,8 +91,8 @@ public class AddDish extends AppCompatActivity {
     public void uploadImage(View view) {
         if (ImageUri != null) {
             ProgressBar.setVisibility(View.VISIBLE);
-           // StorageReference filerefrence = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(ImageUri));
-            storageReference.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+             StorageReference filerefrence = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(ImageUri));
+            filerefrence.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                     if (!task.isSuccessful()) {
@@ -111,12 +111,20 @@ public class AddDish extends AppCompatActivity {
 
 
                                 dish dishClass = new dish(DishName.getText().toString().trim(),
-                                        downloadUri.toString(),Min.getText().toString().trim(),Max.getText().toString().trim(),Coast.getText().toString().trim(),Desc.getText().toString().trim());
+                                        downloadUri.toString(), Min.getText().toString().trim(), Max.getText().toString().trim(), Coast.getText().toString().trim(), Desc.getText().toString().trim());
+                                DishName.setText("");
+                                Min.setText("");
+                                Max.setText("");
+                                Coast.setText("");
+                                Desc.setText("");
+
+
 
                                 databaseReference.push().setValue(dishClass);
                                 ProgressBar.setVisibility(View.GONE);
                                 Toast.makeText(AddDish.this, "Upload successful", Toast.LENGTH_LONG).show();
-
+                                Intent intent = new Intent(AddDish.this, HomePage.class);
+                                startActivity(intent);
                             } else {
                                 ProgressBar.setVisibility(View.GONE);
                                 Toast.makeText(AddDish.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -136,8 +144,8 @@ public class AddDish extends AppCompatActivity {
             ProgressBar.setVisibility(View.GONE);
             Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
         }
-    }
 
+    }
 
 
     public void back(View view) {
