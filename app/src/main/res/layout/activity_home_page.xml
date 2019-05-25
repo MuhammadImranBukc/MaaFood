@@ -89,7 +89,6 @@
                     style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="order"
                     android:text="@string/orders" />
 
                 <android.support.v7.widget.RecyclerView

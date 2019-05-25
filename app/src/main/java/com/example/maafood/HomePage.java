@@ -42,6 +42,13 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
     Button btnAddDish;
     Intent i;
 
+    public static final String IMAGE_URL="imageUrl";
+    public static final String DISH_NAME="dishName";
+    public static final String DESC="desc";
+    public static final String MIN="min";
+    public static final String MAX="max";
+    public static final String COST="cost";
+
     private FirebaseStorage mStorage;
     private FirebaseStorage oStorage;
 
@@ -165,6 +172,22 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
 
     @Override
     public void onItemClick(int position) {
+        Intent detailIntent = new Intent(this, DetailedActivityDish.class);
+        dish clickedItem = mUploads.get(position);
+
+        detailIntent.putExtra(IMAGE_URL, clickedItem.getImageUrl());
+        detailIntent.putExtra(DISH_NAME, clickedItem.getDishName());
+        detailIntent.putExtra(DESC, clickedItem.getDesc());
+        detailIntent.putExtra(MIN, clickedItem.getMin());
+        detailIntent.putExtra(MAX, clickedItem.getMax());
+        detailIntent.putExtra(COST, clickedItem.getCoast());
+
+        startActivity(detailIntent);
+
+
+
+
+
         Toast.makeText(this, "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
     }
 
