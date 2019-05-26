@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".AddOrder">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/backbutton"
+            android:onClick="back"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="MAA FOOD"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/white"/>
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tool"
+        android:text="I Am Looking For" />
+
+    <EditText
+        android:id="@+id/dish_name"
+        android:layout_width="100dp"
+        android:layout_below="@id/tool"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txt1"/>
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tool"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/dish_name"
+        android:text="For "/>
+
+    <EditText
+
+        android:id="@+id/people"
+        android:layout_width="100dp"
+        android:layout_below="@id/tool"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txt2"/>
+
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt1"
+        android:layout_marginTop="12dp"
+        android:padding="10dp"
+        android:text="People On" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/people"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="75dp"
+        android:ems="10"
+        android:onClick="selectDate" />
+
+    <Button
+        android:id="@+id/btnAddOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:text="Add Dish"
+        android:onClick="Adorder"
+        />
+
+
+</RelativeLayout>
