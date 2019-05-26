@@ -1,10 +1,12 @@
 package com.example.maafooD;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,14 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,13 +35,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.OnItemClickListener, RecyclerOrderAdapter.OnItemClickListener {
     private static final String TAG = "MyActivity";
+    public static final int PICK_IMAGE_REQ = 1;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -42,18 +53,20 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
     Button btnAddDish;
     Intent i;
 
-    public static final String IMAGE_URL="imageUrl";
-    public static final String DISH_NAME="dishName";
-    public static final String DESC="desc";
-    public static final String MIN="min";
-    public static final String MAX="max";
-    public static final String COST="cost";
+
+    public static final String IMAGE_URL = "imageUrl";
+    public static final String DISH_NAME = "dishName";
+    public static final String DESC = "desc";
+    public static final String MIN = "min";
+    public static final String MAX = "max";
+    public static final String COST = "cost";
+    public Uri ImageUri;
 
     private FirebaseStorage mStorage;
     private FirebaseStorage oStorage;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView oRecyclerView;
+
     private RecyclerDishAdapter mAdapter;
     private RecyclerOrderAdapter oAdapter;
     private ProgressBar mProgressCircle;
@@ -64,6 +77,8 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
     private List<Order> oUploads;
     private ValueEventListener mDBListener;
     private ValueEventListener oDBListener;
+    ImageView profilePicc;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,8 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
         setContentView(R.layout.activity_home_page);
         setuptoolbar();
 
+
+        storageReference = FirebaseStorage.getInstance().getReference("profilepics/");
         //RecyclerView list = findViewById(R.id.recyclerDishList);
         //list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         //  list.setAdapter(new RecyclerDishAdapter(new String[]{"dish1", "dish2", "dish 3", "dish 4", "dish 5", "dish 6", "dish 7", "dish 8"}));
@@ -79,14 +96,14 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
         //RecyclerView list2 = findViewById(R.id.recyclerOrderList);
         //list2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         // list2.setAdapter(new RecyclerDishAdapter(new String[]{"Order 1", "Order 2", "Order 3", "Order 4", "Order 5", "Order 6", "Order 7", "Order 8"}));
-
+        profilePicc = findViewById(R.id.profilePic);
         mRecyclerView = findViewById(R.id.recyclerDishList);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mProgressCircle = findViewById(R.id.progress_circle);
         mUploads = new ArrayList<>();
         mStorage = FirebaseStorage.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("dishimage");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("dishimage/");
         mDBListener =
                 mDatabaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -162,6 +179,14 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
                         i = new Intent(HomePage.this, AddOrder.class);
                         startActivity(i);
                         break;
+                    case R.id.MyProfile:
+                        i = new Intent(HomePage.this, myProfile.class);
+                        startActivity(i);
+                        break;
+                    case R.id.Planner:
+                        i = new Intent(HomePage.this, Planner.class);
+                        startActivity(i);
+                        break;
 
 
                 }
@@ -183,9 +208,6 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
         detailIntent.putExtra(COST, clickedItem.getCoast());
 
         startActivity(detailIntent);
-
-
-
 
 
         Toast.makeText(this, "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
@@ -289,5 +311,26 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
     public void AddOrder(View view) {
         Intent intent = new Intent(HomePage.this, AddOrder.class);
         startActivity(intent);
+    }
+
+    public void AddPlan(View view) {
+        Intent intent = new Intent(HomePage.this, Planner.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+
+    }
+
+    public void openfilechooser(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQ);
+
     }
 }

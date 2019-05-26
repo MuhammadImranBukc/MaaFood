@@ -77,7 +77,7 @@ public class AddDish extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             ImageUri = data.getData();
-            Picasso.with(this).load(ImageUri).into(DishImage);
+            Picasso.get().load(ImageUri).into(DishImage);
         }
     }
 
@@ -92,7 +92,7 @@ public class AddDish extends AppCompatActivity {
         if (ImageUri != null) {
             ProgressBar.setVisibility(View.VISIBLE);
              StorageReference filerefrence = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(ImageUri));
-            filerefrence.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            storageReference.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                     if (!task.isSuccessful()) {

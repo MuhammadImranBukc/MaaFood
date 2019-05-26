@@ -46,7 +46,7 @@ public class RecyclerDishAdapter extends RecyclerView.Adapter<RecyclerDishAdapte
         //recyclerViewHolder.txt.setText(items[position]);
         dish uploadCurrent = mUploads.get(position);
         holder.textViewName.setText(uploadCurrent.getDishName());
-        Picasso.with(mContext)
+        Picasso.get()
                 .load(uploadCurrent.getImageUrl())
                 .placeholder(R.mipmap.ic_launcher)
                 .fit()
