@@ -13,11 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -66,6 +68,7 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
     private FirebaseStorage oStorage;
 
     private RecyclerView mRecyclerView;
+    public RecyclerDishAdapter adapter;
 
     private RecyclerDishAdapter mAdapter;
     private RecyclerOrderAdapter oAdapter;
@@ -102,20 +105,25 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mProgressCircle = findViewById(R.id.progress_circle);
         mUploads = new ArrayList<>();
+
+        mAdapter = new RecyclerDishAdapter(HomePage.this, mUploads);
+
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(HomePage.this);
         mStorage = FirebaseStorage.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("dishimage/");
         mDBListener =
                 mDatabaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        mUploads.clear();
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                             dish upload = postSnapshot.getValue(dish.class);
                             upload.setKey(postSnapshot.getKey());
                             mUploads.add(upload);
                         }
-                        mAdapter = new RecyclerDishAdapter(HomePage.this, mUploads);
-                        mRecyclerView.setAdapter(mAdapter);
-                        mAdapter.setOnItemClickListener(HomePage.this);
+                        mAdapter.notifyDataSetChanged();
+
                         mProgressCircle.setVisibility(View.INVISIBLE);
                     }
 
@@ -187,6 +195,18 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
                         i = new Intent(HomePage.this, Planner.class);
                         startActivity(i);
                         break;
+                    case R.id.inviteFriends:
+                        i = new Intent(Intent.ACTION_SEND);
+                        i.setType("text/plain");
+                        String shareBody = "Hello I am using MAA Food App , Come Lets join me now at Maa_food.com";
+                        String shareSubject = "MAAFood.com.pk";
+                        i.putExtra(Intent.EXTRA_TEXT, shareBody);
+                        i.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
+                        startActivity(Intent.createChooser(i, "Kahan P Share Karna H"));
+                        break;
+                    case R.id.Help:
+                        i = new Intent(HomePage.this, HelpActivity.class);
+                        startActivity(i);
 
 
                 }
@@ -220,7 +240,7 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
 
     @Override
     public void onDeleteClick(int position) {
-        Toast.makeText(this, "delete click at position: " + position, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "delete click at position: " + position, Toast.LENGTH_SHORT).show();
         dish selectedItem = mUploads.get(position);
         final String selectedKey = selectedItem.getKey();
 
@@ -229,7 +249,8 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
             @Override
             public void onSuccess(Void aVoid) {
                 mDatabaseRef.child(selectedKey).removeValue();
-                Toast.makeText(HomePage.this, "Item deleted", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(HomePage.this, "Item served", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -279,28 +300,6 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        /*  MenuItem item = menu.findItem(R.id.search_menu);
-         SearchView searchView= (SearchView) item.getActionView();
-
-       SearchView.OnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
-            }
-        });*/
-
-        return super.onCreateOptionsMenu(menu);
-    }
 
     public void AddDish(View view) {
 
@@ -321,7 +320,6 @@ public class HomePage extends AppCompatActivity implements RecyclerDishAdapter.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
 
     }

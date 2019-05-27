@@ -4,127 +4,135 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".AddDish">
+    android:orientation="vertical"
+    tools:context=".DetailedActivityDish">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent">
+
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/colorAccent"
-            android:src="@drawable/backbutton"
             android:onClick="back"
-            />
+            android:src="@drawable/backbutton" />
+
         <TextView
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:text="MAA FOOD"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
     </android.support.v7.widget.Toolbar>
 
     <ImageView
         android:id="@+id/dish_image_detailed"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:gravity="center"
         android:layout_marginTop="20dp"
+        android:gravity="center"
 
 
-         />
-
+        />
 
 
     <TextView
         android:id="@+id/DishName_detailed"
+        style="@style/TextAppearance.AppCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:gravity="center"
         android:padding="3dp"
-        android:textStyle="bold"
-        style="@style/TextAppearance.AppCompat"
-         />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/description_detailed"
+        style="@style/TextAppearance.AppCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:gravity="center"
         android:layout_margin="12dp"
-        android:textStyle="bold"
-        style="@style/TextAppearance.AppCompat"
-        />
+        android:gravity="center"
+        android:padding="3dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/min_serving_detailed"
+        style="@style/TextAppearance.AppCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:gravity="center"
         android:layout_margin="12dp"
-        android:textStyle="bold"
-        style="@style/TextAppearance.AppCompat"
-        />
+        android:gravity="center"
+        android:padding="3dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/max_serving_detailed"
+        style="@style/TextAppearance.AppCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:gravity="center"
         android:layout_margin="12dp"
+        android:gravity="center"
+        android:padding="3dp"
         android:textStyle="bold"
-        style="@style/TextAppearance.AppCompat"
 
-         />
+        />
 
     <TextView
         android:id="@+id/EstimatedCoast_detailed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_margin="12dp"
-        android:padding="3dp"
-        android:textStyle="bold"
         style="@style/TextAppearance.AppCompat"
-        />
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/Call"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:onClick="CallUser"
-        android:text="Call Sheff" />
-
-    <Button
-        android:id="@+id/message"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:onClick="message"
-        android:layout_toRightOf="@+id/Call"
-        android:text="Message Sheff" />
-    <Button
-        android:id="@+id/cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Call"
-        android:onClick="cancel"
-        android:text="Cancel" />
+        android:layout_margin="12dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:textStyle="bold" />
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/Call"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/colorAccent"
+            android:onClick="CallUser"
+            android:text="Call Sheff"
+            android:textColor="@color/white" />
 
+        <Button
+            android:id="@+id/message"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/Call"
 
+            android:background="@color/colorAccent"
+            android:onClick="message"
+            android:text="Message Sheff"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Call"
+            android:layout_margin="5dp"
+            android:background="@color/colorAccent"
+            android:onClick="cancel"
+            android:text="Cancel"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 
 
 </LinearLayout>

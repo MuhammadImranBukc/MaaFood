@@ -65,7 +65,7 @@ public class Planner extends AppCompatActivity {
             startActivity(intent);
         }
         else {
-            progressBar.setVisibility(View.GONE);
+
             Toast.makeText(this,"please fill this",Toast.LENGTH_LONG).show();
 
         }
@@ -73,7 +73,13 @@ public class Planner extends AppCompatActivity {
 
     }
     public void Adorder(View view) {
-        order();
+        if (!TextUtils.isEmpty(dishname.getText()) && !TextUtils.isEmpty(people.getText()) && !TextUtils.isEmpty(date.getText())) {
+            order();
+        } else {
+
+            Toast.makeText(this, "please fill this", Toast.LENGTH_LONG).show();
+
+        }
     }
 
 

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -89,63 +90,68 @@ public class AddDish extends AppCompatActivity {
     }
 
     public void uploadImage(View view) {
-        if (ImageUri != null) {
-            ProgressBar.setVisibility(View.VISIBLE);
-             StorageReference filerefrence = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(ImageUri));
-            storageReference.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(AddDish.this, "error agay", Toast.LENGTH_LONG).show();
-                        throw task.getException();
+
+            if (ImageUri != null  && !TextUtils.isEmpty(DishName.getText()) && !TextUtils.isEmpty(Desc.getText())
+                    && !TextUtils.isEmpty(Min.getText())&& !TextUtils.isEmpty(Max.getText())&& !TextUtils.isEmpty(Coast.getText()))  {
+                ProgressBar.setVisibility(View.VISIBLE);
+                // StorageReference filerefrence = storageReference.child(System.currentTimeMillis() + "." + getFileExtention(ImageUri));
+
+                final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
+                        + "." + getFileExtention(ImageUri));
+
+                fileReference.putFile(ImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(AddDish.this, "error agay", Toast.LENGTH_LONG).show();
+                            throw task.getException();
+                        }
+                        return fileReference.getDownloadUrl();
                     }
-                    return storageReference.getDownloadUrl();
-                }
-            })
-                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                Uri downloadUri = task.getResult();
-                                Log.e(TAG, "then: " + downloadUri.toString());
+                })
+                        .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+                                    Log.e(TAG, "then: " + downloadUri.toString());
 
 
-                                dish dishClass = new dish(DishName.getText().toString().trim(),
-                                        downloadUri.toString(), Min.getText().toString().trim(), Max.getText().toString().trim(), Coast.getText().toString().trim(), Desc.getText().toString().trim());
-                                DishName.setText("");
-                                Min.setText("");
-                                Max.setText("");
-                                Coast.setText("");
-                                Desc.setText("");
+                                    dish dishClass = new dish(DishName.getText().toString().trim(),
+                                            downloadUri.toString(), Min.getText().toString().trim(), Max.getText().toString().trim(), Coast.getText().toString().trim(), Desc.getText().toString().trim());
+                                    DishName.setText("");
+                                    Min.setText("");
+                                    Max.setText("");
+                                    Coast.setText("");
+                                    Desc.setText("");
 
 
-
-                                databaseReference.push().setValue(dishClass);
-                                ProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(AddDish.this, "Upload successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(AddDish.this, HomePage.class);
-                                startActivity(intent);
-                            } else {
-                                ProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(AddDish.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    databaseReference.push().setValue(dishClass);
+                                    ProgressBar.setVisibility(View.GONE);
+                                    Toast.makeText(AddDish.this, "Upload successful", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(AddDish.this, HomePage.class);
+                                    startActivity(intent);
+                                } else {
+                                    ProgressBar.setVisibility(View.GONE);
+                                    Toast.makeText(AddDish.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    })
+                        })
 
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            ProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(AddDish.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                ProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(AddDish.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-        } else {
-            ProgressBar.setVisibility(View.GONE);
-            Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
+            } else {
+                ProgressBar.setVisibility(View.GONE);
+                Toast.makeText(this, "No file selected Or data is not correctly filled", Toast.LENGTH_LONG).show();
+            }
+
         }
-
-    }
 
 
     public void back(View view) {
@@ -153,6 +159,7 @@ public class AddDish extends AppCompatActivity {
         startActivity(intent);
 
     }
+
 
 
 }

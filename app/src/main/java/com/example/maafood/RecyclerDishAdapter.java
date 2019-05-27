@@ -9,17 +9,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerDishAdapter extends RecyclerView.Adapter<RecyclerDishAdapter.recyclerViewHolder> {
+public class RecyclerDishAdapter extends RecyclerView.Adapter<RecyclerDishAdapter.recyclerViewHolder> implements Filterable {
     private Context mContext;
     private List<dish> mUploads;
+    private List<dish> exampleListFull;
     private OnItemClickListener mListener;
 
    // public RecyclerDishAdapter(String[] items) {
@@ -28,6 +32,7 @@ public class RecyclerDishAdapter extends RecyclerView.Adapter<RecyclerDishAdapte
    public RecyclerDishAdapter(Context context, List<dish> uploads) {
        mContext = context;
        mUploads = uploads;
+       exampleListFull=new ArrayList<>(uploads);
    }
 
     public String[] items;
@@ -127,4 +132,40 @@ public class RecyclerDishAdapter extends RecyclerView.Adapter<RecyclerDishAdapte
     {
         mListener = listener;
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private  Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<dish> filteredList=new ArrayList<>();
+            if(constraint==null || constraint.length()==0){
+filteredList.addAll(exampleListFull);
+
+            }else {
+String filterPattern = constraint.toString().toLowerCase().trim();
+
+
+            for (dish item:exampleListFull){
+
+                if(item.getDishName().toLowerCase().contains(filterPattern));
+                filteredList.add(item);
+            }
+
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+ mUploads.clear();
+ mUploads.addAll((List)results.values);
+ notifyDataSetChanged();
+        }
+    };
 }

@@ -14,7 +14,8 @@
         android:id="@+id/imageviewdish"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/adddish" />
+        android:src="@drawable/adddish"
+        />
     <TextView
         android:id="@+id/itemTxt"
         android:layout_width="wrap_content"

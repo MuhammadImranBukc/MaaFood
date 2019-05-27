@@ -53,10 +53,12 @@
             android:id="@+id/button_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_button_register"
+
             android:text="@string/login"
+            android:textColor="@color/white"
+            android:background="@color/colorAccent"
             android:textAllCaps="false"
-            android:textColor="@color/colorText" />
+             />
 
         <TextView
             android:id="@+id/not_registered"

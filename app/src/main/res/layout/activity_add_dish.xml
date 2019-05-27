@@ -11,29 +11,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent">
+
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/colorAccent"
-            android:src="@drawable/backbutton"
             android:onClick="back"
-            />
+            android:src="@drawable/backbutton" />
+
         <TextView
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:text="MAA FOOD"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
     </android.support.v7.widget.Toolbar>
 
     <ImageView
         android:id="@+id/dish_image"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:onClick="openFileChooser"
-        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:onClick="openFileChooser"
 
         android:src="@drawable/addimage" />
 
@@ -44,8 +45,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="373dp"
-        android:visibility="gone"
-        />
+
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/DishName"
@@ -53,7 +54,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dish_image"
         android:layout_margin="12dp"
-        android:hint="@string/dish_name" />
+        android:hint="@string/dish_name"
+        android:inputType="text"
+        android:nextFocusDown="@id/description" />
 
     <EditText
         android:id="@+id/description"
@@ -61,7 +64,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/DishName"
         android:layout_margin="12dp"
-        android:hint="@string/desc" />
+        android:hint="@string/desc"
+        android:inputType="text"
+        android:nextFocusDown="@id/min_serving" />
 
     <EditText
         android:id="@+id/min_serving"
@@ -75,17 +80,22 @@
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="12dp"
-        android:hint="@string/min_serve" />
+        android:hint="@string/min_serve"
+        android:inputType="number"
+
+        android:nextFocusDown="@id/max_serving" />
 
     <EditText
         android:id="@+id/max_serving"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
-        android:layout_margin="12dp"
+        android:layout_margin="9dp"
         android:layout_toRightOf="@+id/min_serving"
+        android:hint="@string/max_serve"
+        android:inputType="number"
 
-        android:hint="@string/max_serve" />
+        android:nextFocusDown="@id/EstimatedCoast" />
 
     <EditText
         android:id="@+id/EstimatedCoast"
@@ -93,19 +103,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/max_serving"
         android:layout_margin="12dp"
-        android:hint="@string/est_cost" />
-
+        android:hint="@string/est_cost"
+        android:inputType="number"
+        android:nextFocusDown="@id/button_post" />
 
     <Button
         android:id="@+id/button_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/EstimatedCoast"
-
         android:layout_centerHorizontal="true"
+        android:background="@color/colorAccent"
         android:onClick="uploadImage"
-        android:text="Post" />
-
+        android:text="Post"
+        android:textColor="@color/white" />
 
 
 </RelativeLayout>

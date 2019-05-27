@@ -43,6 +43,8 @@
         android:layout_width="100dp"
         android:layout_below="@id/tool"
         android:layout_marginTop="20dp"
+        android:inputType="text"
+        android:nextFocusDown="@id/people"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/txt1"/>
 
@@ -62,6 +64,8 @@
         android:layout_width="100dp"
         android:layout_below="@id/tool"
         android:layout_marginTop="20dp"
+        android:nextFocusDown="@id/date"
+        android:inputType="number"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/txt2"/>
 
@@ -79,7 +83,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/people"
+        android:nextFocusDown="@id/btnAddOrder"
         android:layout_alignParentEnd="true"
+        android:inputType="datetime"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="75dp"
         android:ems="10"
@@ -92,6 +98,8 @@
         android:layout_below="@id/date"
         android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
         android:text="Add Plan"
         android:onClick="Adorder"
         />

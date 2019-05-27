@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">MaaFood</string>
-    <string-array name="specifiecs">
-        <item>veg</item>
-        <item>non veg</item>
-        <item>veg</item>
+    <string-array name="category">
+        <item>Inquiry</item>
+        <item>Feedback</item>
+        <item>Other</item>
     </string-array>
 
     <string name="full_name">full name</string>

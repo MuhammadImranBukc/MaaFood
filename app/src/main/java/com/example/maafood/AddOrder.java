@@ -50,7 +50,7 @@ public class AddOrder extends AppCompatActivity {
         date.setInputType(InputType.TYPE_NULL);
 
 
-        databaseReference=FirebaseDatabase.getInstance().getReference("MyOrders/");
+        databaseReference = FirebaseDatabase.getInstance().getReference("MyOrders/");
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,34 +59,43 @@ public class AddOrder extends AppCompatActivity {
 
         findViewById(R.id.btnAddOrder);
     }
-public void order(){
 
-    String name = dishname.getText().toString();
-    String peopl = people.getText().toString();
-    String dat = date.getText().toString();
-    if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(peopl) && !TextUtils.isEmpty(dat)) {
+    public void order() {
 
-        String id = databaseReference.push().getKey();
-        Order order= new Order(id,name,peopl,dat);
-        databaseReference.child(id).setValue(order);
-        dishname.setText("");
-        people.setText("");
-        date.setText("");
+        String name = dishname.getText().toString();
+        String peopl = people.getText().toString();
+        String dat = date.getText().toString();
+        if (!TextUtils.isEmpty(dishname.getText()) && !TextUtils.isEmpty(people.getText()) && !TextUtils.isEmpty(date.getText())) {
 
-        Toast.makeText(this,"Successfull",Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, HomePage.class);
-        startActivity(intent);
+            String id = databaseReference.push().getKey();
+            Order order = new Order(id, name, peopl, dat);
+            databaseReference.child(id).setValue(order);
+            dishname.setText("");
+            people.setText("");
+            date.setText("");
+
+            Toast.makeText(this, "Successfull", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+        } else {
+
+            Toast.makeText(this, "please fill this", Toast.LENGTH_LONG).show();
+
+        }
+
+
     }
-    else {
-        progressBar.setVisibility(View.GONE);
-        Toast.makeText(this,"please fill this",Toast.LENGTH_LONG).show();
 
-    }
-
-
-}
     public void Adorder(View view) {
-       order();
+
+
+        if (!TextUtils.isEmpty(dishname.getText()) && !TextUtils.isEmpty(people.getText()) && !TextUtils.isEmpty(date.getText())) {
+            order();
+        } else {
+
+            Toast.makeText(this, "please fill this", Toast.LENGTH_LONG).show();
+
+        }
     }
 
 
